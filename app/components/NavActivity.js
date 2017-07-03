@@ -15,6 +15,7 @@ import {
     Platform
 } from 'react-native';
 import Dimensions from 'Dimensions';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import Util from '../utility/util';
 const debugKeyWord = '[NavActivity]';
@@ -95,33 +96,46 @@ function matchSize(direction, size) {
     return direction === 'w' ? (size / _template.width * width) : (size / _template.height * height);
 }
 
-
 class LeftButton extends Component {
     render() {
-        const {leftButton, navigator, closeButton, navHeight, paddingSize} = this.props.store;
+        const {leftButton, navigator, closeButton, menuButton, navHeight, paddingSize} = this.props.store;
         if (leftButton.disabled) {
             return <View style={Styles.leftButton}/>
         }
         return (
             <View style={Styles.leftButton}>
-                <TouchableOpacity
-                    style={[Styles.backZone, {height: navHeight, paddingLeft: paddingSize}]}
-                    activeOpacity={1}
-                    onPress={() => onBackPress(navigator, leftButton.handler)}>
-                    <Image
-                        style={{width: leftButton.iconSize[0], height: leftButton.iconSize[1]}}
-                        resizeMode={'cover'}
-                        source={leftButton.icon}/>
-                    <Text style={{color: leftButton.tintColor, fontSize: leftButton.fontSize}}>{leftButton.title}</Text>
-                </TouchableOpacity>
+                {leftButton.enableBackZone ?
+                    <TouchableOpacity
+                        style={[Styles.backZone, {height: navHeight, paddingLeft: paddingSize}]}
+                        activeOpacity={1}
+                        onPress={() => onBackPress(navigator, leftButton.handler)}>
+                        <Image
+                            style={{width: leftButton.iconSize[0], height: leftButton.iconSize[1]}}
+                            resizeMode={'cover'}
+                            source={leftButton.icon}/>
+                        <Text style={{
+                            color: leftButton.tintColor,
+                            fontSize: leftButton.fontSize
+                        }}>{leftButton.title}</Text>
+                    </TouchableOpacity> : null}
                 {!closeButton.disabled && closeButton.closeZone == 'left' ?
                     <TouchableOpacity
                         style={[Styles.closeZone, {height: navHeight}]}
                         activeOpacity={1}
                         onPress={() => onClosePress(closeButton.handler)}>
-                        <Text style={{color: closeButton.tintColor,fontSize: closeButton.fontSize}}>
+                        <Text style={{color: closeButton.tintColor, fontSize: closeButton.fontSize}}>
                             {closeButton.title}
                         </Text>
+                    </TouchableOpacity> : null}
+                {!menuButton.disabled ?
+                    <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() => onMenuPress(navigator, menuButton.handler)}
+                        style={Styles.menuZone}>
+                        <Icon
+                            name={'menu'}
+                            size={menuButton.size}
+                            color={menuButton.color}/>
                     </TouchableOpacity> : null}
             </View>
         );
@@ -203,6 +217,7 @@ export default class NavActivity extends Component {
         title: PropTypes.object,
         leftButton: PropTypes.object,
         closeButton: PropTypes.object,
+        menuButton: PropTypes.object,
         customButton: PropTypes.object,
         bottomStyle: PropTypes.object
     };
@@ -249,6 +264,7 @@ export default class NavActivity extends Component {
                 icon: require('../res/default/navig_img_back_black.png'),//icon的图片路径
                 handler: null,//leftButton按键按下时调用的回调函数
                 disabled: true,//是否禁用左边返回按钮
+                enableBackZone: true,//开启返回键按钮
                 ...props.leftButton
             },
             closeButton: {//关闭按钮
@@ -259,6 +275,13 @@ export default class NavActivity extends Component {
                 closeZone: 'right',//关闭按钮在leftButton区域还是rightButton区域
                 disabled: true,
                 ...props.closeButton
+            },
+            menuButton: {//关闭按钮
+                size: 22,
+                color: '#C1C1C1',
+                handler: null,//closeButton按键按下时调用的回调函数
+                disabled: true,
+                ...props.menuButton
             },
             customButton: {//自定义右侧按钮
                 disabled: true,
@@ -344,6 +367,10 @@ function onBackPress(navigator, handler) {
 function onClosePress(handler) {
     handler instanceof Function ? handler() : null;//若配置回调函数，则执行该回调函数
 }
+function onMenuPress(navigator, handler) {
+    navigator.navigate('DrawerOpen');
+    handler instanceof Function ? handler() : null;//若配置回调函数，则执行该回调函数
+}
 
 const Styles = StyleSheet.create({
     wrap: {
@@ -369,7 +396,6 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
     },
     backZone: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center'
@@ -379,6 +405,12 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 3,
+    },
+    menuZone: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 16,
     },
     //中间标题区域
     title: {

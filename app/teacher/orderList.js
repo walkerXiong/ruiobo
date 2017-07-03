@@ -7,7 +7,7 @@ import {
     View,
     StyleSheet,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {observable, action, autorun, computed} from 'mobx';
 import {observer, Provider, inject} from 'mobx-react/native';
 import AppStore from '../stores/testView/test';
@@ -22,7 +22,11 @@ class OrderDetail extends Component {
     render() {
         return (
             <View style={Styles.wrap}>
-                <NavActivity title={{title: '订单列表'}}/>
+                <NavActivity
+                    navigator={this.props.navigation}
+                    leftButton={{disabled: false, enableBackZone: false}}
+                    menuButton={{disabled: false}}
+                    title={{title: '订单列表'}}/>
             </View>
         )
     }
@@ -33,7 +37,7 @@ export default class OrderList extends Component {
         drawerLabel: '订单列表',
         drawerIcon: ({tintColor}) => (
             <Icon
-                name={'md-list-box'}
+                name={'cards-outline'}
                 size={24}
                 style={{color: tintColor}}/>
         )
