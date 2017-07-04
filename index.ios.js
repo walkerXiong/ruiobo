@@ -5,5 +5,5 @@
  */
 'use strict';
 import {AppRegistry} from 'react-native';
-import {RootPage} from './app/router';
-AppRegistry.registerComponent('ruiobo', () => RootPage);
+import App from './app/index';
+AppRegistry.registerComponent('ruiobo', () => App);

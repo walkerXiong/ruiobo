@@ -19,22 +19,20 @@ async function wrapGlobalHandler(error, isFatal) {
 ErrorUtils.setGlobalHandler(wrapGlobalHandler);
 
 import React, {Component} from 'react';
-import {
-    View,
-    StyleSheet,
-    Text,
-    TouchableOpacity
-} from 'react-native';
-import {NavigationActions} from 'react-navigation'
-import * as Animatable from 'react-native-animatable';
-import './utility/animation';
+import {Platform} from 'react-native';
+import {NavigationActions, StackNavigator, DrawerNavigator} from 'react-navigation';
+import {Horizontal_RToL_withoutScale} from './utility/transitionConfig';
+import Teacher from './teacher/index';
+import Student from './student/index';
+import Help from './client/help';
+import SysSet from './client/sysSet';
+import About from './client/about';
+import CustomerService from './client/customerService';
 import Util from './utility/util';
 import WebAPI from './utility/webAPI';
 
 const debugKeyWord = '[rootPage]';
-export default class judgeClient extends Component {
-    _clientStudent = null;
-    _clientTeacher = null;
+class HomePage extends Component {
 
     constructor(props) {
         super(props);
@@ -46,14 +44,18 @@ export default class judgeClient extends Component {
     }
 
     componentDidMount() {
-        this._clientStudent.app_index_sc_in(500);
-        this._clientTeacher.app_index_tc_in(500);
+        this.props.navigation.dispatch(NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({routeName: 'StudentClient'})
+            ]
+        }));
     }
 
     componentWillUnmount() {
+        Util.log(debugKeyWord + 'componentWillUnmount!!!');
         //组件销毁时候，移除网络是否连接的监听
         WebAPI.NetInfo.isConnected.removeEventListener('NetInfo_isConnected', this._registerIsConnectHandle);
-        Util.log(debugKeyWord + 'componentWillUnmount!!!');
     }
 
     _registerIsConnectHandle = (isConnected) => {
@@ -61,75 +63,24 @@ export default class judgeClient extends Component {
         !isConnected && Util.toast.show('网络断开，请检查网络');
     };
 
-    checkPage(client) {
-        switch (client) {
-            case 'teacher':
-                this.props.navigation.dispatch(NavigationActions.reset({
-                    index: 0,
-                    actions: [
-                        NavigationActions.navigate({routeName: 'TeacherClient'})
-                    ]
-                }));
-                break;
-            case 'student':
-                this.props.navigation.dispatch(NavigationActions.reset({
-                    index: 0,
-                    actions: [
-                        NavigationActions.navigate({routeName: 'StudentClient'})
-                    ]
-                }));
-                break;
-        }
-    }
-
     render() {
-        return (
-            <View style={Styles.wrap}>
-                <Animatable.View
-                    ref={(ref) => this._clientStudent = ref}
-                    useNativeDrive={true}>
-                    <TouchableOpacity
-                        style={Styles.client}
-                        activeOpacity={1}
-                        onPress={() => this.checkPage('student')}>
-                        <Text>{'学生'}</Text>
-                    </TouchableOpacity>
-                </Animatable.View>
-                <Animatable.View
-                    ref={(ref) => this._clientTeacher = ref}
-                    useNativeDrive={true}>
-                    <TouchableOpacity
-                        style={Styles.client}
-                        activeOpacity={1}
-                        onPress={() => this.checkPage('teacher')}>
-                        <Text>{'老师'}</Text>
-                    </TouchableOpacity>
-                </Animatable.View>
-            </View>
-        );
+        return null;
     }
-};
+}
 
-const Styles = StyleSheet.create({
-    wrap: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#ffffff'
-    },
-    client: {
-        width: 100,
-        height: 100,
-        backgroundColor: '#FFB5C5',
-        borderRadius: 50,
-        marginBottom: 30,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    font: {
-        fontSize: 18,
-        color: '#ffffff'
-    }
+const App = StackNavigator({
+    Home: {screen: HomePage},
+    StudentClient: {screen: Student},
+    TeacherClient: {screen: Teacher},
+    Help: {screen: Help},
+    SysSet: {screen: SysSet},
+    CustomerService: {screen: CustomerService},
+    About: {screen: About},
+}, {
+    initialRouteName: 'Home',
+    headerMode: 'none',
+    navigationOptions: {gesturesEnabled: Platform.OS === 'ios'},
+    transitionConfig: Horizontal_RToL_withoutScale
 });
+
+export default () => <App/>;

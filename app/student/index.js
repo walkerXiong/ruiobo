@@ -2,42 +2,14 @@
  * Created by walkerxiong on 2017/6/17.
  */
 'use strict';
-import React from 'react';
+import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {DrawerNavigator, DrawerItems} from 'react-navigation';
+import {DrawerNavigator, DrawerItems, NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Util from '../utility/util';
 import Nearby from './nearby';
 import SysSet from '../client/sysSet';
 import Help from '../client/help';
-
-const CustomDrawerContentComponent = (props) => (
-    <View style={Styles.container}>
-        <View style={Styles.header}>
-            <View style={Styles.userIcon}>
-                <Icon name={'user-circle'} size={45}/>
-            </View>
-            <Text style={Styles.nickName}>{'微风\n131****8387'}</Text>
-        </View>
-        <DrawerItems {...props}/>
-        <View style={Styles.footer}>
-            <View style={Styles.footerWrap}>
-                <TouchableOpacity
-                    style={[Styles.footerItem]}
-                    activeOpacity={0.8}
-                    onPress={() => null}>
-                    <Text style={Styles.footerFont}>{'关于'}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[Styles.footerItem, {borderRightWidth: 0}]}
-                    activeOpacity={0.8}
-                    onPress={() => null}>
-                    <Text style={Styles.footerFont}>{'客服'}</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    </View>
-);
 
 const Styles = StyleSheet.create({
     container: {
@@ -92,25 +64,72 @@ const Styles = StyleSheet.create({
     }
 });
 
-const StudentDrawer = DrawerNavigator({
+class DrawerContent extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        let {rootNavigation} = this.props.screenProps;
+        return (
+            <View style={Styles.container}>
+                <View style={Styles.header}>
+                    <View style={Styles.userIcon}>
+                        <Icon name={'user-circle'} size={45}/>
+                    </View>
+                    <Text style={Styles.nickName}>{'微风\n131****8387'}</Text>
+                </View>
+                <DrawerItems {...this.props}/>
+                <View style={Styles.footer}>
+                    <View style={Styles.footerWrap}>
+                        <TouchableOpacity
+                            style={[Styles.footerItem]}
+                            activeOpacity={0.8}
+                            onPress={() => {
+                                // this.props.navigation.navigate('DrawerClose');
+                                rootNavigation.navigate('About');
+                            }}>
+                            <Text style={Styles.footerFont}>{'关于'}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[Styles.footerItem, {borderRightWidth: 0}]}
+                            activeOpacity={0.8}
+                            onPress={() => {
+                                // this.props.navigation.navigate('DrawerClose');
+                                rootNavigation.navigate('CustomerService');
+                            }}>
+                            <Text style={Styles.footerFont}>{'客服'}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        );
+    }
+}
+
+const DrawerMenu = DrawerNavigator({
     Nearby: {screen: Nearby},
-    help: {screen: Help},
-    sysSet: {screen: SysSet},
+    SysSet: {screen: SysSet},
+    Help: {screen: Help},
 }, {
     initialRouteName: 'Nearby',
     drawerWidth: 200,
     drawerPosition: 'left',
-    contentComponent: CustomDrawerContentComponent,
+    contentComponent: DrawerContent,
     contentOptions: {
         activeTintColor: '#e91e63',
         activeBackgroundColor: '#ffffff',
-        inactiveBackgroundColor: '#ffffff',
-        style: {
-            borderTopWidth: Util.size.screen.pixel,
-            borderBottomWidth: Util.size.screen.pixel,
-            borderColor: '#c3c3c3'
-        }
+        inactiveBackgroundColor: '#ffffff'
     },
 });
 
-export default () => <StudentDrawer/>;
+export default class StudentClient extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return <DrawerMenu screenProps={{rootNavigation: this.props.navigation}}/>;
+    }
+};
