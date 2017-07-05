@@ -22,23 +22,16 @@ class HelpDetail extends Component {
     render() {
         return (
             <View style={Styles.wrap}>
-                <NavActivity title={{title: '使用指南'}}/>
+                <NavActivity
+                    navigator={this.props.navigation}
+                    leftButton={{disabled: false}}
+                    title={{title: '使用指南'}}/>
             </View>
         )
     }
 }
 
 export default class Help extends Component {
-    static navigationOptions = {
-        drawerLabel: '使用指南',
-        drawerIcon: ({tintColor}) => (
-            <Icon
-                name={'help-circle-outline'}
-                size={24}
-                style={{color: tintColor}}/>
-        )
-    };
-
     render() {
         Util.log(debugKeyWord + 'render!!!');
         return (

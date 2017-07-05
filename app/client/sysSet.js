@@ -22,23 +22,16 @@ class Teacher extends Component {
     render() {
         return (
             <View style={Styles.wrap}>
-                <NavActivity title={{title: '系统设置'}}/>
+                <NavActivity
+                    navigator={this.props.navigation}
+                    leftButton={{disabled: false}}
+                    title={{title: '系统设置'}}/>
             </View>
         )
     }
 }
 
 export default class OrderRequire extends Component {
-    static navigationOptions = {
-        drawerLabel: ' 设置',
-        drawerIcon: ({tintColor}) => (
-            <Icon
-                name={'settings'}
-                size={24}
-                style={{color: tintColor}}/>
-        )
-    };
-
     render() {
         Util.log(debugKeyWord + 'render!!!');
         return (
