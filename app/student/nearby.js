@@ -15,6 +15,7 @@ import {observer, Provider, inject} from 'mobx-react/native';
 import AppStore from '../stores/testView/test';
 import reactMixin from 'react-mixin';
 import TimerMixin from 'react-timer-mixin';
+import SplashScreen from 'react-native-smart-splash-screen';
 
 import {MapView, MapTypes, Geolocation} from 'react-native-baidu-map';
 import NavActivity from '../components/NavActivity';
@@ -40,6 +41,11 @@ class NearbyDetail extends Component {
     }
 
     onMapLoaded() {
+        SplashScreen.close({
+            animationType: SplashScreen.animationType.fade,
+            duration: 500,
+            delay: 100,
+        });
         this.getCurrentPosition(null, () => {
             if (!this.state.retryFocus) {
                 this.setTimeout(() => {
@@ -159,16 +165,6 @@ class NearbyDetail extends Component {
 }
 
 export default class Nearby extends Component {
-    static navigationOptions = {
-        drawerLabel: '附近的老师',
-        drawerIcon: ({tintColor}) => (
-            <Icon
-                name={'near-me'}
-                size={24}
-                style={{color: tintColor}}/>
-        )
-    };
-
     render() {
         Util.log(debugKeyWord + 'render!!!');
         return (

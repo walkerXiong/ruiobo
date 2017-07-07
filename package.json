@@ -22,6 +22,7 @@
     "react-native-baidu-map": "^0.6.0",
     "react-native-linear-gradient": "^2.0.0",
     "react-native-root-toast": "^1.1.2",
+    "react-native-smart-splash-screen": "^2.3.4",
     "react-native-vector-icons": "^4.2.0",
     "react-navigation": "^1.0.0-beta.11",
     "react-timer-mixin": "^0.13.3"
