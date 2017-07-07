@@ -9,6 +9,9 @@
   "dependencies": {
     "chroma-js": "^1.3.4",
     "crypto-js": "^3.1.9-1",
+    "mobile-center": "^0.7.0",
+    "mobile-center-analytics": "^0.7.0",
+    "mobile-center-crashes": "^0.7.0",
     "mobx": "^3.1.10",
     "mobx-react": "^4.1.8",
     "react": "16.0.0-alpha.12",

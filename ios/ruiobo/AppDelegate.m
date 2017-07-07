@@ -8,6 +8,9 @@
  */
 
 #import "AppDelegate.h"
+#import <RNCrashes/RNCrashes.h>
+#import <RNAnalytics/RNAnalytics.h>
+#import <RNMobileCenter/RNMobileCenter.h>
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -18,6 +21,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
+
+  [RNCrashes registerWithCrashDelegate: [[RNCrashesDelegateAlwaysSend alloc] init]];  // Initialize Mobile Center crashes
+
+  [RNAnalytics registerWithInitiallyEnabled:true];  // Initialize Mobile Center analytics
+
+  [RNMobileCenter register];  // Initialize Mobile Center 
   
   [RCTBaiduMapViewManager initSDK:@"0v5hrnOamB03XcwGVUeZje4ozC9Dmx15"];//这里的api key 一定要在官网和APP的Bundle identifier对应，否则地图会显示失败
 
