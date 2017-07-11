@@ -71,44 +71,31 @@ const Util = {
     physicalButton: {
         _lastBackPressed: -1,
         _allowLeaveTime: 2000,
-        _navigator: null,
-        addBackEventListener(eventName, navigator){
-            Util.physicalButton._navigator = navigator;
+        _navigation: null,
+        _topRouter: null,
+        addBackEventListener(eventName, navigation, topRouter){
+            Util.physicalButton._navigation = navigation;
+            Util.physicalButton._topRouter = topRouter;
             return BackHandler.addEventListener(eventName, Util.physicalButton.onBackAndroid);
         },
         removeBackEventListener(hardWareBackHandle){
             hardWareBackHandle && hardWareBackHandle.remove();
         },
         onBackAndroid(){
-            let navigator = Util.physicalButton._navigator;
-            if (navigator) {
-                let _routers = navigator.getCurrentRoutes();
-
-                //如果当前路由组件定义了ignoreBackEvent，则不执行返回键；如果当前路由组件定义了handleBackEvent，则执行handleBackEvent，并根据其返回值决定是否执行返回键
-                const _currNav = _routers[_routers.length - 1];
-                if (_currNav.ignoreBackEvent || _currNav.component.ignoreBackEvent) return true;
-                if (_currNav.handleBackEvent || _currNav.component.handleBackEvent) {
-                    if (_currNav.handleBackEvent instanceof Function) {
-                        return _currNav.handleBackEvent();
-                    }
-                    if (_currNav.component.handleBackEvent instanceof Function) {
-                        return _currNav.component.handleBackEvent();
-                    }
-                }
-
-                if (_routers.length > 1) {
-                    navigator.pop();
+            let navigation = Util.physicalButton._navigation;
+            if (navigation) {
+                let _routers = navigation.state;
+                if (_routers.routeName !== Util.physicalButton._topRouter) {
+                    navigation.goBack(null);
                     return true;
                 }
-                return false;
-
-                // //如果路由层级已经为顶层，则两次单击退出
-                // if (this._lastBackPressed !== -1 && (this._lastBackPressed + this._allowLeaveTime) >= Date.now()) {
-                //     return false;//2s之内连续按返回键，则退出应用
-                // }
-                // this._lastBackPressed = Date.now();
-                // Util.toast.show("再按一次退出应用");
-                // return true;
+                //如果路由层级已经为顶层，则两次单击退出
+                if (Util.physicalButton._lastBackPressed !== -1 && (Util.physicalButton._lastBackPressed + Util.physicalButton._allowLeaveTime) >= Date.now()) {
+                    return false;//2s之内连续按返回键，则退出应用
+                }
+                Util.physicalButton._lastBackPressed = Date.now();
+                Util.toast.show("再按一次退出应用");
+                return true;
             }
         }
     },
@@ -134,7 +121,7 @@ const Util = {
                 case 1:
                     _toastHandle = Toast.show(_params[0], {
                         duration: Util.toast.durations.SHORT,
-                        position: Util.toast.positions.CENTER,
+                        position: Util.toast.positions.BOTTOM,
                         shadow: false,
                         animation: true,
                         hideOnPress: true,

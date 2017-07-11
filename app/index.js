@@ -19,9 +19,9 @@ async function wrapGlobalHandler(error, isFatal) {
 ErrorUtils.setGlobalHandler(wrapGlobalHandler);
 
 import React, {Component} from 'react';
-import {Platform} from 'react-native';
-import {NavigationActions, StackNavigator, DrawerNavigator} from 'react-navigation';
-import {Horizontal_RToL_withoutScale} from './utility/transitionConfig';
+import {Platform, BackHandler} from 'react-native';
+import {NavigationActions, StackNavigator, addNavigationHelpers} from 'react-navigation';
+import {Horizontal_RToL_Opacity} from './utility/transitionConfig';
 import Teacher from './teacher/index';
 import Student from './student/index';
 import Help from './client/help';
@@ -29,18 +29,10 @@ import SysSet from './client/sysSet';
 import About from './client/about';
 import CustomerService from './client/customerService';
 import Util from './utility/util';
-import WebAPI from './utility/webAPI';
 
-const debugKeyWord = '[rootPage]';
 class HomePage extends Component {
-
     constructor(props) {
         super(props);
-    }
-
-    componentWillMount() {
-        //注册监听网络是否连接
-        WebAPI.NetInfo.isConnected.addEventListener('NetInfo_isConnected', this._registerIsConnectHandle);
     }
 
     componentDidMount() {
@@ -51,17 +43,6 @@ class HomePage extends Component {
             ]
         }));
     }
-
-    componentWillUnmount() {
-        Util.log(debugKeyWord + 'componentWillUnmount!!!');
-        //组件销毁时候，移除网络是否连接的监听
-        WebAPI.NetInfo.isConnected.removeEventListener('NetInfo_isConnected', this._registerIsConnectHandle);
-    }
-
-    _registerIsConnectHandle = (isConnected) => {
-        //此处监听一个空执行函数，是因为iOS端需要先监听，然后isConnected.fetch()才能获取正确结果，而安卓可以直接fetch
-        !isConnected && Util.toast.show('网络断开，请检查网络');
-    };
 
     render() {
         return null;
@@ -80,7 +61,31 @@ const App = StackNavigator({
     initialRouteName: 'Home',
     headerMode: 'none',
     navigationOptions: {gesturesEnabled: Platform.OS === 'ios'},
-    transitionConfig: Horizontal_RToL_withoutScale
+    transitionConfig: Horizontal_RToL_Opacity
 });
 
-export default () => <App/>;
+export default class AppClient extends Component {
+    _lastBackPressed = -1;
+    _allowLeaveTime = 2000;
+
+    handleBackPress = () => {
+        if (this._lastBackPressed !== -1 && (this._lastBackPressed + this._allowLeaveTime) >= Date.now()) {
+            return false;//2s之内连续按返回键，则退出应用
+        }
+        this._lastBackPressed = Date.now();
+        Util.toast.show("再按一次退出应用");
+        return true;
+    };
+
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
+    render() {
+        return <App ref={(ref) => this._navigator = ref}/>;
+    }
+}
