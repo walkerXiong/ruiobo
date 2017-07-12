@@ -20,7 +20,7 @@ ErrorUtils.setGlobalHandler(wrapGlobalHandler);
 
 import React, {Component} from 'react';
 import {Platform, BackHandler} from 'react-native';
-import {NavigationActions, StackNavigator, addNavigationHelpers} from 'react-navigation';
+import {NavigationActions, StackNavigator} from 'react-navigation';
 import {Horizontal_RToL_Opacity} from './utility/transitionConfig';
 import Teacher from './teacher/index';
 import Student from './student/index';
@@ -39,7 +39,12 @@ class HomePage extends Component {
         this.props.navigation.dispatch(NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({routeName: 'StudentClient'})
+                NavigationActions.navigate({
+                    routeName: 'StudentClient',
+                    params: {
+                        getRootNavigator: this.props.screenProps.getRootNavigator
+                    }
+                })
             ]
         }));
     }
@@ -65,16 +70,27 @@ const App = StackNavigator({
 });
 
 export default class AppClient extends Component {
+    _navigator = null;
     _lastBackPressed = -1;
     _allowLeaveTime = 2000;
 
     handleBackPress = () => {
-        if (this._lastBackPressed !== -1 && (this._lastBackPressed + this._allowLeaveTime) >= Date.now()) {
-            return false;//2s之内连续按返回键，则退出应用
+        if (this._navigator) {
+            let {state, dispatch} = this._navigator;
+            if (state.nav.index > 0) {
+                dispatch(NavigationActions.back());
+                return true;
+            }
+            else {
+                if (this._lastBackPressed !== -1 && (this._lastBackPressed + this._allowLeaveTime) >= Date.now()) {
+                    return false;//2s之内连续按返回键，则退出应用
+                }
+                this._lastBackPressed = Date.now();
+                Util.toast.show("再按一次退出应用");
+            }
+            return true;
         }
-        this._lastBackPressed = Date.now();
-        Util.toast.show("再按一次退出应用");
-        return true;
+        return false;
     };
 
     componentDidMount() {
@@ -85,7 +101,12 @@ export default class AppClient extends Component {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     }
 
+    getRootNavigator() {
+        return this._navigator;
+    }
+
     render() {
-        return <App ref={(ref) => this._navigator = ref}/>;
+        return <App ref={(ref) => this._navigator = ref}
+                    screenProps={{getRootNavigator: this.getRootNavigator.bind(this)}}/>;
     }
 }
