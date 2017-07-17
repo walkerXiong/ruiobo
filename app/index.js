@@ -22,7 +22,7 @@ import React, {Component} from 'react';
 import {Platform, BackHandler} from 'react-native';
 import realm from './DB/client';
 import {NavigationActions, StackNavigator} from 'react-navigation';
-import {Horizontal_RToL_Opacity} from './utility/transitionConfig';
+import {IOS_Default} from './utility/transitionConfig';
 import Teacher from './teacher/index';
 import Student from './student/index';
 import Help from './client/help';
@@ -42,7 +42,7 @@ const App = StackNavigator({
     initialRouteName: (realm.objects('Client')[0] && realm.objects('Client')[0].currClient === 'teacher') ? 'TeacherClient' : 'StudentClient',
     headerMode: 'none',
     navigationOptions: {gesturesEnabled: Platform.OS === 'ios'},
-    transitionConfig: Horizontal_RToL_Opacity
+    transitionConfig: IOS_Default
 });
 
 export default class AppClient extends Component {

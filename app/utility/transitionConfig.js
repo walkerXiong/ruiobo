@@ -6,10 +6,16 @@ import {I18nManager, Easing, Animated} from 'react-native';
 
 // Define scene transition params
 const transitionSpec = {
-    duration: 300,
-    easing: Easing.out(Easing.poly(4)),
+    duration: 350,
+    easing: Easing.out(Easing.poly(5)), // decelerate
     timing: Animated.timing,
 };
+
+const IOSTransitionSpec = ({
+    duration: 500,
+    easing: Easing.bezier(0.2833, 0.99, 0.31833, 0.99),
+    timing: Animated.timing,
+});
 
 export const Android_Default = () => {
     return {
@@ -19,21 +25,63 @@ export const Android_Default = () => {
             //part-1: prepare for some params
             const {position, scene} = sceneProps;
             const {index} = scene;
+            const inputRange = [index - 1, index, index + 0.99, index + 1];
 
             //part-2: define transition animation
             const opacity = position.interpolate({
-                inputRange: [index - 1, index, index + 0.999, index + 1],
+                inputRange,
                 outputRange: [0, 1, 1, 0],
             });
             const translateY = position.interpolate({
-                inputRange: [index - 1, index, index + 1],
-                outputRange: [150, 0, 0],
+                inputRange,
+                outputRange: [50, 0, 0, 0],
             });
 
             //part-3 return
             return {
                 opacity,
                 transform: [
+                    {translateY}
+                ]
+            };
+        }
+    }
+};
+
+export const IOS_Default = () => {
+    return {
+        IOSTransitionSpec,
+        // Define scene interpolation, eq. custom transition
+        screenInterpolator: (sceneProps) => {
+            //part-1: prepare for some params
+            const {position, scene, layout} = sceneProps;
+            const {index} = scene;
+            const width = layout.initWidth;
+            const inputRange = [index - 1, index, index + 1];
+            const outputRange = I18nManager.isRTL ? [-width, 0, 10] : [width, 0, -10];
+
+            //part-2: define transition animation
+            const opacity = position.interpolate({
+                inputRange: ([
+                    index - 1,
+                    index - 0.99,
+                    index,
+                    index + 0.99,
+                    index + 1,
+                ]),
+                outputRange: ([0, 1, 1, 0.3, 0]),
+            });
+            const translateY = 0;
+            const translateX = position.interpolate({
+                inputRange,
+                outputRange,
+            });
+
+            //part-3 return
+            return {
+                opacity,
+                transform: [
+                    {translateX},
                     {translateY}
                 ]
             };

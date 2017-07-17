@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import Util from '../utility/util';
@@ -97,7 +98,15 @@ export default class DrawerContent extends Component {
                 </TouchableOpacity>
                 <View style={Styles.footer}>
                     <TouchableOpacity
-                        onPress={() => rootNavigation.navigate('TeacherClient')}
+                        onPress={() => {
+                            rootNavigation.dispatch(NavigationActions.reset({
+                                index: 0,
+                                key: null,
+                                actions: [
+                                    NavigationActions.navigate({routeName: 'TeacherClient'})
+                                ]
+                            }));
+                        }}
                         style={{
                             width: 150,
                             height: 30,
