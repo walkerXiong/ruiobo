@@ -7,6 +7,8 @@ import {
     View,
     StyleSheet,
 } from 'react-native';
+import realm from '../DB/client';
+import SplashScreen from 'react-native-smart-splash-screen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {observable, action, autorun, computed} from 'mobx';
 import {observer, Provider, inject} from 'mobx-react/native';
@@ -19,6 +21,19 @@ const debugKeyWord = '[OrderList]';
 
 @inject('store', 'navigation') @observer
 class OrderDetail extends Component {
+    componentDidMount() {
+        SplashScreen.close({
+            animationType: SplashScreen.animationType.fade,
+            duration: 500,
+            delay: 100,
+        });
+        if (!realm.objects('Client')[0] || realm.objects('Client')[0].currClient !== 'teacher') {
+            realm.write(() => {
+                realm.create('Client', {currClient: 'teacher'});
+            });
+        }
+    }
+
     render() {
         return (
             <View style={Styles.wrap}>

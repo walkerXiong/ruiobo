@@ -32,11 +32,10 @@ export default class StudentClient extends Component {
 
     _getStateForAction(action, state) {
         if (state && state.index === 1) {
-            let {navigation} = this.props;
-            let {getRootNavigator} = navigation.state.params;
+            let {getRootNavigator} = this.props.screenProps;
             if (getRootNavigator instanceof Function) {
                 let _rootNavigator = getRootNavigator();
-                if (_rootNavigator.state && _rootNavigator.state.nav.index >= 1) {
+                if (_rootNavigator && _rootNavigator.state && _rootNavigator.state.nav.index >= 1) {
                     return null;
                 }
             }

@@ -20,6 +20,7 @@ ErrorUtils.setGlobalHandler(wrapGlobalHandler);
 
 import React, {Component} from 'react';
 import {Platform, BackHandler} from 'react-native';
+import realm from './DB/client';
 import {NavigationActions, StackNavigator} from 'react-navigation';
 import {Horizontal_RToL_Opacity} from './utility/transitionConfig';
 import Teacher from './teacher/index';
@@ -30,32 +31,7 @@ import About from './client/about';
 import CustomerService from './client/customerService';
 import Util from './utility/util';
 
-class HomePage extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    componentDidMount() {
-        this.props.navigation.dispatch(NavigationActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({
-                    routeName: 'StudentClient',
-                    params: {
-                        getRootNavigator: this.props.screenProps.getRootNavigator
-                    }
-                })
-            ]
-        }));
-    }
-
-    render() {
-        return null;
-    }
-}
-
 const App = StackNavigator({
-    Home: {screen: HomePage},
     StudentClient: {screen: Student},
     TeacherClient: {screen: Teacher},
     Help: {screen: Help},
@@ -63,7 +39,7 @@ const App = StackNavigator({
     CustomerService: {screen: CustomerService},
     About: {screen: About},
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: (realm.objects('Client')[0] && realm.objects('Client')[0].currClient === 'teacher') ? 'TeacherClient' : 'StudentClient',
     headerMode: 'none',
     navigationOptions: {gesturesEnabled: Platform.OS === 'ios'},
     transitionConfig: Horizontal_RToL_Opacity
@@ -93,7 +69,7 @@ export default class AppClient extends Component {
         return false;
     };
 
-    componentDidMount() {
+    componentWillMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
 
