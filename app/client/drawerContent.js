@@ -2,124 +2,85 @@
  * Created by hebao on 2017/7/11.
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {NavigationActions} from 'react-navigation';
+import {observer, Provider, inject} from 'mobx-react/native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
+import UserInfo from '../stores/userInfo';
 import Util from '../utility/util';
 
-export default class DrawerContent extends Component {
+@inject('user') @observer
+class DrawerMenu extends Component {
+    checkDrawerItems() {
+        let {drawerItems} = this.props.user.state;
+        return (
+            drawerItems.map((s, i) => {
+                return (
+                    <TouchableOpacity
+                        key={i}
+                        onPress={() => {
+                            this.props.navigation.navigate(s.navRoute);
+                        }}
+                        style={Styles.drawerItemWrap}>
+                        <Icon name={s.icon} size={22} color={this.props.activeTintColor}/>
+                        <Text style={[Styles.drawerItem, {color: this.props.activeTintColor}]}>{s.profile}</Text>
+                    </TouchableOpacity>
+                );
+            })
+        );
+    }
+
     render() {
         let {rootNavigation} = this.props.screenProps;
+        let {userName, phoneNumber, userIcon} = this.props.user.base;
         return (
             <View style={Styles.container}>
                 <View style={Styles.header}>
-                    <View style={Styles.userIcon}>
-                        <Icon name={'user'} size={45}/>
+                    <View style={Styles.userIconWrap}>
+                        <Image
+                            source={{uri: userIcon}}
+                            style={Styles.userIcon}
+                            fadeDuration={0}
+                            resizeMode={'center'}/>
                     </View>
-                    <Text style={Styles.nickName}>{'微风\n131****8387'}</Text>
+                    <Text style={Styles.nickName}>{`${userName}\n${phoneNumber}`}</Text>
                 </View>
-                <TouchableOpacity
-                    onPress={() => {
-                        this.props.navigation.navigate('DrawerClose');
-                    }}
-                    style={{
-                        width: 200,
-                        paddingHorizontal: 30,
-                        paddingVertical: 10,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                    <Icon name={'paper-plane'} size={22} color={this.props.activeTintColor}/>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginLeft: 10
-                    }}>
-                        <Text style={{fontSize: 16, color: this.props.activeTintColor, fontWeight: 'bold'}}>
-                            {'附近的老师'}
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => {
-                        //this.props.navigation.navigate('DrawerClose');
-                        rootNavigation.navigate('Help');
-                    }}
-                    style={{
-                        width: 200,
-                        paddingHorizontal: 30,
-                        paddingVertical: 10,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                    <Icon name={'question'} size={22} color={this.props.activeTintColor}/>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginLeft: 10
-                    }}>
-                        <Text style={{fontSize: 16, color: this.props.activeTintColor, fontWeight: 'bold'}}>
-                            {'使用指南'}
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => {
-                        //this.props.navigation.navigate('DrawerClose');
-                        rootNavigation.navigate('SysSet');
-                    }}
-                    style={{
-                        width: 200,
-                        paddingHorizontal: 30,
-                        paddingVertical: 10,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}>
-                    <Icon name={'settings'} size={22} color={this.props.activeTintColor}/>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginLeft: 10
-                    }}>
-                        <Text style={{fontSize: 16, color: this.props.activeTintColor, fontWeight: 'bold'}}>
-                            {'系统设置'}
-                        </Text>
-                    </View>
-                </TouchableOpacity>
+                {this.checkDrawerItems()}
                 <View style={Styles.footer}>
                     <TouchableOpacity
                         onPress={() => {
-                            rootNavigation.dispatch(NavigationActions.reset({
-                                index: 0,
-                                key: null,
-                                actions: [
-                                    NavigationActions.navigate({routeName: 'TeacherClient'})
-                                ]
-                            }));
+                            // rootNavigation.dispatch(NavigationActions.reset({
+                            //     index: 0,
+                            //     key: null,
+                            //     actions: [
+                            //         NavigationActions.navigate({routeName: 'TeacherClient'})
+                            //     ]
+                            // }));
+                            UserInfo.updateBaseInfo({
+                                userName: '_Dq',
+                                age: 23,
+                                phoneNumber: '183****7213',
+                                userIcon: 'http://diy.qqjay.com/u/files/2012/0209/2f45e7e0d06a69a974949c0872a5ec5a.jpg'
+                            });
+                            UserInfo.updateState({//本地状态
+                                drawerItems: [{
+                                    icon: 'paper-plane',
+                                    profile: '附近的老师',
+                                    navRoute: 'DrawerClose'
+                                }, {
+                                    icon: 'question',
+                                    profile: '使用指南',
+                                    navRoute: 'Help'
+                                }, {
+                                    icon: 'settings',
+                                    profile: '系统设置',
+                                    navRoute: 'SysSet'
+                                }]
+                            });
                         }}
-                        style={{
-                            width: 150,
-                            height: 30,
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: '#FFEC8B',
-                            borderRadius: 10,
-                            marginBottom: 20
-                        }}>
-                        <Text style={{fontSize: 18, color: '#8B6508', fontWeight: 'bold', marginRight: 5}}>
-                            {'我是老师'}
-                        </Text>
+                        style={Styles.teacherContainer}>
+                        <Text style={Styles.teacherFont}>{'我是老师'}</Text>
                         <IconMaterial name={'navigate-next'} size={22}/>
                     </TouchableOpacity>
                     <View style={Styles.footerWrap}>
@@ -142,6 +103,16 @@ export default class DrawerContent extends Component {
     }
 }
 
+export default class DrawerContent extends Component {
+    render() {
+        return (
+            <Provider user={UserInfo}>
+                <DrawerMenu {...this.props}/>
+            </Provider>
+        );
+    }
+}
+
 const Styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -155,23 +126,56 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 50
     },
-    userIcon: {
-        width: 70,
-        height: 70,
-        padding: 2,
-        backgroundColor: '#FFA500',
-        borderRadius: 35,
+    userIconWrap: {
+        width: 84,
+        height: 84,
+        borderRadius: 42,
         borderWidth: Util.size.screen.pixel,
         borderColor: '#D3D3D3',
         marginBottom: 15,
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
+    },
+    userIcon: {
+        width: 70,
+        height: 70,
+        borderRadius: 35,
     },
     nickName: {
         fontSize: 18,
         color: '#C4C4C4',
         textAlign: 'center'
+    },
+    drawerItemWrap: {
+        width: 200,
+        paddingHorizontal: 30,
+        paddingVertical: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    drawerItem: {
+        flex: 1,
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    teacherContainer: {
+        width: 150,
+        height: 30,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFEC8B',
+        borderRadius: 10,
+        marginBottom: 20
+    },
+    teacherFont: {
+        fontSize: 18,
+        color: '#8B6508',
+        fontWeight: 'bold',
+        marginRight: 5
     },
     footer: {
         flex: 1,

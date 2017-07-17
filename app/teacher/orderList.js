@@ -48,16 +48,6 @@ class OrderDetail extends Component {
 }
 
 export default class OrderList extends Component {
-    static navigationOptions = {
-        drawerLabel: '订单列表',
-        drawerIcon: ({tintColor}) => (
-            <Icon
-                name={'cards-outline'}
-                size={24}
-                style={{color: tintColor}}/>
-        )
-    };
-
     render() {
         Util.log(debugKeyWord + 'render!!!');
         return (
