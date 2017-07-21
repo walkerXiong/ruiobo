@@ -5,6 +5,15 @@
 let tryStack = [];
 let trySudoBackup = [];
 
+function checkFull(sudo) {
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (checkValid(sudo, i, j).length === 0) return false;
+        }
+    }
+    return true;
+}
+
 function checkValid(sudo, row, col) {
     let _rowArr = [].concat(sudo[row]);
     let _colArr = [];
@@ -36,12 +45,10 @@ function findUnique(sudo, row, col) {
     if (_validArr.length === 0) return [];//此处可填写的数组为空，也即此处不能填写任何数字，推断出错，回退栈重新填写
     //若正确，算出sudo当前所在行列可填的数字
     let _compare = [1, 2, 3, 4, 5, 6, 7, 8, 9], _final = [];
-    let _result = _validArr[0].concat(_validArr[1].concat(_validArr[2])).sort((a, b) => a - b).join('').replace(/0*(1)*(2)*(3)*(4)*(5)*(6)*(7)*(8)*(9)*/g, '$1$2$3$4$5$6$7$8$9').trim().split('');
+    let _result = _validArr[0].concat(_validArr[1].concat(_validArr[2]));
     for (let i = 0, j = _compare.length; i < j; i++) {
-        if (_compare[i] != _result[i]) {
+        if (_result.indexOf(_compare[i]) === -1) {
             _final.push(_compare[i]);
-            _result.push(_compare[i]);
-            _result.sort((a, b) => a - b);
         }
     }
     return _final;//返回此处可填数字
@@ -90,10 +97,10 @@ function fillUnique(sudo) {
     }
     else {
         let _fillArr = _checkUnique.filter((s, i) => s.count === 1);
-        for (let i = 0, j = _fillArr.length; i < j; i++) {
-            sudo[_fillArr[i].row][_fillArr[i].col] = _fillArr[i].fill[0];
-        }
         if (_fillArr.length > 0) {
+            for (let i = 0, j = _fillArr.length; i < j; i++) {
+                sudo[_fillArr[i].row][_fillArr[i].col] = _fillArr[i].fill[0];
+            }
             return fillUnique(sudo);
         }
         else {
@@ -108,6 +115,12 @@ function fillUnique(sudo) {
             }
             else {
                 //不存在待填数字，完成计算
+                if (!checkFull(sudo)) {
+                    stepBackTryStack();
+                    sudo = trySudoBackup[trySudoBackup.length - 1];
+                    sudo[tryStack[tryStack.length - 1].row][tryStack[tryStack.length - 1].col] = tryStack[tryStack.length - 1].fill[tryStack[tryStack.length - 1].tryIndex];
+                    return fillUnique(sudo);//继续递归计算
+                }
                 return sudo;
             }
         }
