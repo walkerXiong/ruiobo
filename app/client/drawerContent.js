@@ -10,8 +10,54 @@ import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import UserInfo from '../stores/userInfo';
 import Util from '../utility/util';
 
+class FooterInfo extends Component {
+    resetTo() {
+        let {rootNavigation} = this.props.screenProps;
+        rootNavigation.dispatch(NavigationActions.reset({
+            index: 0,
+            key: null,
+            actions: [
+                NavigationActions.navigate({routeName: 'TeacherClient'})
+            ]
+        }));
+    }
+
+    render() {
+        let {rootNavigation} = this.props.screenProps;
+        return (
+            <View style={Styles.footer}>
+                <TouchableOpacity
+                    onPress={() => this.resetTo()}
+                    style={Styles.teacherContainer}>
+                    <Text style={Styles.teacherFont}>{'我是老师'}</Text>
+                    <IconMaterial name={'navigate-next'} size={22}/>
+                </TouchableOpacity>
+                <View style={Styles.footerWrap}>
+                    <TouchableOpacity
+                        style={[Styles.footerItem]}
+                        activeOpacity={0.8}
+                        onPress={() => rootNavigation.navigate('About')}>
+                        <Text style={Styles.footerFont}>{'关于'}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[Styles.footerItem, {borderRightWidth: 0}]}
+                        activeOpacity={0.8}
+                        onPress={() => rootNavigation.navigate('CustomerService')}>
+                        <Text style={Styles.footerFont}>{'客服'}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+}
+
 @inject('user') @observer
-class DrawerMenu extends Component {
+class DrawerItems extends Component {
+    navItem(navRoute) {
+        let {rootNavigation} = this.props.screenProps;
+        navRoute === 'DrawerClose' ? this.props.navigation.navigate(navRoute) : rootNavigation.navigate(navRoute);
+    }
+
     checkDrawerItems() {
         let {drawerItems} = this.props.user.state;
         return (
@@ -19,9 +65,7 @@ class DrawerMenu extends Component {
                 return (
                     <TouchableOpacity
                         key={i}
-                        onPress={() => {
-                            this.props.navigation.navigate(s.navRoute);
-                        }}
+                        onPress={() => this.navItem(s.navRoute)}
                         style={Styles.drawerItemWrap}>
                         <Icon name={s.icon} size={22} color={this.props.activeTintColor}/>
                         <Text style={[Styles.drawerItem, {color: this.props.activeTintColor}]}>{s.profile}</Text>
@@ -32,74 +76,30 @@ class DrawerMenu extends Component {
     }
 
     render() {
-        let {rootNavigation} = this.props.screenProps;
-        let {userName, phoneNumber, userIcon} = this.props.user.base;
         return (
-            <View style={Styles.container}>
-                <View style={Styles.header}>
-                    <View style={Styles.userIconWrap}>
-                        <Image
-                            source={{uri: userIcon}}
-                            style={Styles.userIcon}
-                            fadeDuration={0}
-                            resizeMode={'center'}/>
-                    </View>
-                    <Text style={Styles.nickName}>{`${userName}\n${phoneNumber}`}</Text>
-                </View>
+            <View style={Styles.drawer}>
                 {this.checkDrawerItems()}
-                <View style={Styles.footer}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            // rootNavigation.dispatch(NavigationActions.reset({
-                            //     index: 0,
-                            //     key: null,
-                            //     actions: [
-                            //         NavigationActions.navigate({routeName: 'TeacherClient'})
-                            //     ]
-                            // }));
-                            UserInfo.updateBaseInfo({
-                                userName: '_Dq',
-                                age: 23,
-                                phoneNumber: '183****7213',
-                                userIcon: 'http://diy.qqjay.com/u/files/2012/0209/2f45e7e0d06a69a974949c0872a5ec5a.jpg'
-                            });
-                            UserInfo.updateState({//本地状态
-                                drawerItems: [{
-                                    icon: 'paper-plane',
-                                    profile: '附近的老师',
-                                    navRoute: 'DrawerClose'
-                                }, {
-                                    icon: 'question',
-                                    profile: '使用指南',
-                                    navRoute: 'Help'
-                                }, {
-                                    icon: 'settings',
-                                    profile: '系统设置',
-                                    navRoute: 'SysSet'
-                                }]
-                            });
-                        }}
-                        style={Styles.teacherContainer}>
-                        <Text style={Styles.teacherFont}>{'我是老师'}</Text>
-                        <IconMaterial name={'navigate-next'} size={22}/>
-                    </TouchableOpacity>
-                    <View style={Styles.footerWrap}>
-                        <TouchableOpacity
-                            style={[Styles.footerItem]}
-                            activeOpacity={0.8}
-                            onPress={() => rootNavigation.navigate('About')}>
-                            <Text style={Styles.footerFont}>{'关于'}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[Styles.footerItem, {borderRightWidth: 0}]}
-                            activeOpacity={0.8}
-                            onPress={() => rootNavigation.navigate('CustomerService')}>
-                            <Text style={Styles.footerFont}>{'客服'}</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
             </View>
         );
+    }
+}
+
+@inject('user') @observer
+class HeaderInfo extends Component {
+    render() {
+        let {userName, phoneNumber, userIcon} = this.props.user.base;
+        return (
+            <View style={Styles.header}>
+                <View style={Styles.userIconWrap}>
+                    <Image
+                        source={{uri: userIcon}}
+                        style={Styles.userIcon}
+                        fadeDuration={0}
+                        resizeMode={'center'}/>
+                </View>
+                <Text style={Styles.nickName}>{`${userName}`}</Text>
+            </View>
+        )
     }
 }
 
@@ -107,7 +107,11 @@ export default class DrawerContent extends Component {
     render() {
         return (
             <Provider user={UserInfo}>
-                <DrawerMenu {...this.props}/>
+                <View style={Styles.container}>
+                    <HeaderInfo />
+                    <DrawerItems {...this.props}/>
+                    <FooterInfo {...this.props}/>
+                </View>
             </Provider>
         );
     }
@@ -146,6 +150,11 @@ const Styles = StyleSheet.create({
         fontSize: 18,
         color: '#C4C4C4',
         textAlign: 'center'
+    },
+    drawer: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     drawerItemWrap: {
         width: 200,

@@ -31,7 +31,27 @@ import About from './client/about';
 import CustomerService from './client/customerService';
 import Util from './utility/util';
 
+class CheckClient extends Component {
+    componentDidMount() {
+        let _currClient = (realm.objects('Client')[0] && realm.objects('Client')[0].currClient === 'teacher') ? 'TeacherClient' : 'StudentClient';
+        this.props.navigation.dispatch(
+            NavigationActions.reset({
+                index: 0,
+                key: null,
+                actions: [
+                    NavigationActions.navigate({routeName: _currClient})
+                ]
+            })
+        );
+    }
+
+    render() {
+        return null;
+    }
+}
+
 const App = StackNavigator({
+    CheckClient: {screen: CheckClient},
     StudentClient: {screen: Student},
     TeacherClient: {screen: Teacher},
     Help: {screen: Help},
@@ -39,7 +59,7 @@ const App = StackNavigator({
     CustomerService: {screen: CustomerService},
     About: {screen: About},
 }, {
-    initialRouteName: (realm.objects('Client')[0] && realm.objects('Client')[0].currClient === 'teacher') ? 'TeacherClient' : 'StudentClient',
+    initialRouteName: 'CheckClient',
     headerMode: 'none',
     navigationOptions: {gesturesEnabled: Platform.OS === 'ios'},
     transitionConfig: IOS_Default
