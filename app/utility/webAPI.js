@@ -165,5 +165,23 @@ const WebAPI = {
             );
         }
     },
+    DevTest: {
+        GetUserName: (callback, errorCallback) => {
+            const _url = _domain;
+            Util.log(debugKeyWord + "fetch url:" + _url);
+            fetch(_url, {
+                method: "GET",
+            })
+                .then((response) => response.json())
+                .then((responseJsonData) => {
+                    callback && callback(responseJsonData);
+                })
+                .catch((e) => {
+                    Util.log(debugKeyWord + "GetUserName Error:" + e);
+                    errorCallback && errorCallback(e);
+                })
+                .done();
+        },
+    }
 };
 export default WebAPI;

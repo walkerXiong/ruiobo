@@ -15,14 +15,15 @@ import {NavigationActions} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {observable, action, autorun, computed} from 'mobx';
 import {observer, Provider, inject} from 'mobx-react/native';
-import AppStore from '../stores/testView/test';
+import UserInfo from '../stores/userInfo';
 
 import NavActivity from '../components/NavActivity';
 import Util from '../utility/util';
+import WebAPI from '../utility/webAPI';
 
 const debugKeyWord = '[OrderList]';
 
-@inject('store', 'navigation') @observer
+@inject('user', 'navigation') @observer
 class OrderDetail extends Component {
     componentDidMount() {
         SplashScreen.close({
@@ -52,22 +53,27 @@ class OrderDetail extends Component {
                     leftButton={{disabled: false, enableBackZone: false}}
                     menuButton={{disabled: false}}
                     title={{title: '订单列表'}}/>
-                <TouchableOpacity onPress={() => {
-                    if (!realm.objects('Client')[0] || realm.objects('Client')[0].currClient === 'teacher') {
-                        Util.log(debugKeyWord + 'componentDidMount===write client student!!!');
-                        realm.write(() => {
-                            realm.objects('Client')[0].currClient = 'student';
+                <TouchableOpacity
+                    style={{width: 200, height: 50, backgroundColor: '#ffeeaa'}}
+                    onPress={() => {
+                        // Util.log(debugKeyWord + 'xq debug === pressed!');
+                        // if (!realm.objects('Client')[0] || realm.objects('Client')[0].currClient === 'teacher') {
+                        //     Util.log(debugKeyWord + 'componentDidMount===write client student!!!');
+                        //     realm.write(() => {
+                        //         realm.objects('Client')[0].currClient = 'student';
+                        //     });
+                        // }
+                        WebAPI.DevTest.GetUserName((data) => {
+                            Util.log(debugKeyWord + 'first try get data:' + (data ? JSON.stringify(data) : 'none'));
+                            let {user} = this.props;
+                            user.updateBaseInfo({
+                                userName: data.userName
+                            })
                         });
-                    }
-                    let {rootNavigation} = this.props.screenProps;
-                    rootNavigation.dispatch(NavigationActions.reset({
-                        index: 0,
-                        key: null,
-                        actions: [
-                            NavigationActions.navigate({routeName: 'StudentClient'})
-                        ]
-                    }));
-                }}>
+                        // fetch('http://127.0.0.1:3000/').then((res) => {
+                        //     Util.log(debugKeyWord + 'res:' + res);
+                        // });
+                    }}>
                     <Text>{'click me'}</Text>
                 </TouchableOpacity>
             </View>
@@ -79,7 +85,7 @@ export default class OrderList extends Component {
     render() {
         Util.log(debugKeyWord + 'render!!!');
         return (
-            <Provider store={AppStore} navigation={this.props.navigation}>
+            <Provider user={UserInfo} navigation={this.props.navigation}>
                 <OrderDetail {...this.props}/>
             </Provider>
         );
