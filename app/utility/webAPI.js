@@ -114,6 +114,47 @@ const WebAPI = {
                 .done();
         }
     },
+    UserInfos: {
+        getUserInfo: (uid, callback, errorCallback) => {
+            const _url = _domain + 'UserInfos/getUserInfo?uid=' + uid;
+            Util.log(debugKeyWord + "fetch url:" + _url);
+            fetch(_url, {
+                method: "GET",
+            })
+                .then((response) => response.json())
+                .then((responseJsonData) => {
+                    callback && callback(responseJsonData);
+                })
+                .catch((e) => {
+                    Util.log(debugKeyWord + "GetUserInfo Error:" + e);
+                    errorCallback && errorCallback(e);
+                })
+                .done();
+        },
+        setUserInfo: (info, callback, errorCallback) => {
+            const _url = _domain + 'UserInfos/setUserInfo?Data=' + JSON.stringify(info);
+            Util.log(debugKeyWord + "post url:" + _url);
+            // const _body = Object.keys(info).reduce((result, value, index, arr) => {
+            //     return result + value + '=' + encodeURIComponent(info[value]) + ((index !== arr.length - 1) ? '&' : '')
+            // }, '');
+            fetch(_url, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    ...WebAPI.header
+                },
+            })
+                .then((response) => response.json())
+                .then((responseJsonData) => {
+                    callback && callback(responseJsonData);
+                })
+                .catch((e) => {
+                    Util.log(debugKeyWord + "setUserInfo Error:" + e);
+                    errorCallback && errorCallback(e);
+                })
+                .done();
+        }
+    },
     NetInfo: {
         simulateRequestHandle: -1,
         isConnected: {
@@ -164,24 +205,6 @@ const WebAPI = {
                 }
             );
         }
-    },
-    DevTest: {
-        GetUserName: (callback, errorCallback) => {
-            const _url = _domain;
-            Util.log(debugKeyWord + "fetch url:" + _url);
-            fetch(_url, {
-                method: "GET",
-            })
-                .then((response) => response.json())
-                .then((responseJsonData) => {
-                    callback && callback(responseJsonData);
-                })
-                .catch((e) => {
-                    Util.log(debugKeyWord + "GetUserName Error:" + e);
-                    errorCallback && errorCallback(e);
-                })
-                .done();
-        },
     }
 };
 export default WebAPI;

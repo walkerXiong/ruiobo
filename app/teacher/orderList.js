@@ -63,12 +63,15 @@ class OrderDetail extends Component {
                         //         realm.objects('Client')[0].currClient = 'student';
                         //     });
                         // }
-                        WebAPI.DevTest.GetUserName((data) => {
-                            Util.log(debugKeyWord + 'first try get data:' + (data ? JSON.stringify(data) : 'none'));
+                        WebAPI.UserInfos.getUserInfo(1, (res) => {
+                            Util.log(debugKeyWord + 'first try get data:' + (res ? JSON.stringify(res) : 'none'));
                             let {user} = this.props;
                             user.updateBaseInfo({
-                                userName: data.userName
+                                userName: res.Data.nickName
                             })
+                        });
+                        WebAPI.UserInfos.setUserInfo({nickName: 'fuck off'}, (res) => {
+                            Util.log(debugKeyWord + 'setUserInfo:' + (res ? JSON.stringify(res) : 'none'));
                         });
                         // fetch('http://127.0.0.1:3000/').then((res) => {
                         //     Util.log(debugKeyWord + 'res:' + res);
