@@ -63,15 +63,25 @@ class OrderDetail extends Component {
                         //         realm.objects('Client')[0].currClient = 'student';
                         //     });
                         // }
-                        WebAPI.UserInfos.getUserInfo(1, (res) => {
-                            Util.log(debugKeyWord + 'first try get data:' + (res ? JSON.stringify(res) : 'none'));
-                            let {user} = this.props;
-                            user.updateBaseInfo({
-                                userName: res.Data.nickName
-                            })
-                        });
-                        WebAPI.UserInfos.setUserInfo({nickName: 'fuck off'}, (res) => {
+                        // WebAPI.UserInfos.getUserInfo(1, (res) => {
+                        //     Util.log(debugKeyWord + 'first try get data:' + (res ? JSON.stringify(res) : 'none'));
+                        //     let {user} = this.props;
+                        //     user.updateBaseInfo({
+                        //         userName: res.Data.nickName
+                        //     })
+                        // });
+                        WebAPI.UserInfos.setUserInfo(1, {
+                            nickName: 'walkerXiong',
+                            phoneNumber: '13125108387',
+                            IDNumber: '350822199303136123'
+                        }, (res) => {
                             Util.log(debugKeyWord + 'setUserInfo:' + (res ? JSON.stringify(res) : 'none'));
+                            if (res.Success) {
+                                let {user} = this.props;
+                                user.updateBaseInfo({
+                                    nickName: 'walkerXiong'
+                                })
+                            }
                         });
                         // fetch('http://127.0.0.1:3000/').then((res) => {
                         //     Util.log(debugKeyWord + 'res:' + res);

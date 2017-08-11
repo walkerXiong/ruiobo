@@ -5,9 +5,10 @@ import {observable, action, computed} from 'mobx';
 
 let UserInfo = observable({
     @observable base: {//本地状态
-        userName: 'walkerXiong',
-        age: 23,
-        phoneNumber: '131****8387',
+        isStudent: true,
+        nickName: 'ruiobo',
+        realName: '',
+        phoneNumber: '',
         userIcon: 'http://img.jsqq.net/uploads/allimg/150111/1_150111080328_19.jpg'
     },
 

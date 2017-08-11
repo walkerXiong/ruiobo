@@ -131,18 +131,20 @@ const WebAPI = {
                 })
                 .done();
         },
-        setUserInfo: (info, callback, errorCallback) => {
-            const _url = _domain + 'UserInfos/setUserInfo?Data=' + JSON.stringify(info);
+        setUserInfo: (uid, data, callback, errorCallback) => {
+            const _url = _domain + 'UserInfos/setUserInfo';
             Util.log(debugKeyWord + "post url:" + _url);
             // const _body = Object.keys(info).reduce((result, value, index, arr) => {
             //     return result + value + '=' + encodeURIComponent(info[value]) + ((index !== arr.length - 1) ? '&' : '')
             // }, '');
+            const _body = 'data=' + JSON.stringify(data) + '&uid=' + uid;
             fetch(_url, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     ...WebAPI.header
                 },
+                body: _body
             })
                 .then((response) => response.json())
                 .then((responseJsonData) => {

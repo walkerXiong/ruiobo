@@ -87,7 +87,7 @@ class DrawerItems extends Component {
 @inject('user') @observer
 class HeaderInfo extends Component {
     render() {
-        let {userName, phoneNumber, userIcon} = this.props.user.base;
+        let {nickName, userIcon} = this.props.user.base;
         return (
             <View style={Styles.header}>
                 <View style={Styles.userIconWrap}>
@@ -97,7 +97,7 @@ class HeaderInfo extends Component {
                         fadeDuration={0}
                         resizeMode={'center'}/>
                 </View>
-                <Text style={Styles.nickName}>{`${userName}`}</Text>
+                <Text style={Styles.nickName}>{`${nickName}`}</Text>
             </View>
         )
     }
