@@ -25,6 +25,7 @@ import {NavigationActions, StackNavigator} from 'react-navigation';
 import {IOS_Default} from './utility/transitionConfig';
 import Teacher from './teacher/index';
 import Student from './student/index';
+import UserInfo from './client/userInfo';
 import Help from './client/help';
 import SysSet from './client/sysSet';
 import About from './client/about';
@@ -54,6 +55,7 @@ const App = StackNavigator({
     CheckClient: {screen: CheckClient},
     StudentClient: {screen: Student},
     TeacherClient: {screen: Teacher},
+    UserInfo: {screen: UserInfo},
     Help: {screen: Help},
     SysSet: {screen: SysSet},
     CustomerService: {screen: CustomerService},

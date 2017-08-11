@@ -58,7 +58,7 @@ export const IOS_Default = () => {
             const {index} = scene;
             const width = layout.initWidth;
             const inputRange = [index - 1, index, index + 1];
-            const outputRange = I18nManager.isRTL ? [-width, 0, 10] : [width, 0, -10];
+            const outputRange = I18nManager.isRTL ? [-width, 0, 30] : [width, 0, -30];
 
             //part-2: define transition animation
             const opacity = position.interpolate({

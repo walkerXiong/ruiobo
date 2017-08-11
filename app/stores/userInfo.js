@@ -8,37 +8,14 @@ let UserInfo = observable({
         isStudent: true,
         nickName: 'ruiobo',
         realName: '',
-        phoneNumber: '',
+        phoneNumber: '131****8387',
         userIcon: 'http://img.jsqq.net/uploads/allimg/150111/1_150111080328_19.jpg'
-    },
-
-    @observable state: {//本地状态
-        drawerItems: [{
-            icon: 'paper-plane',
-            profile: '订单列表',
-            navRoute: 'DrawerClose'
-        }, {
-            icon: 'question',
-            profile: '使用指南',
-            navRoute: 'Help'
-        }, {
-            icon: 'settings',
-            profile: '系统设置',
-            navRoute: 'SysSet'
-        }]
     },
 
     @action updateBaseInfo(data) {
         UserInfo.base = {
             ...UserInfo.base,
             ...data
-        };
-    },
-
-    @action updateState(state) {
-        UserInfo.state = {
-            ...UserInfo.state,
-            ...state
         };
     },
 

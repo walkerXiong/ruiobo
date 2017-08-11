@@ -10,6 +10,35 @@ import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 import UserInfo from '../stores/userInfo';
 import Util from '../utility/util';
 
+const drawerItems_student = [{
+    icon: 'paper-plane',
+    profile: '附近的老师',
+    navRoute: 'DrawerClose'
+}, {
+    icon: 'question',
+    profile: '使用指南',
+    navRoute: 'Help'
+}, {
+    icon: 'settings',
+    profile: '系统设置',
+    navRoute: 'SysSet'
+}];
+
+const drawerItems_teacher = [{
+    icon: 'list',
+    profile: '订单列表',
+    navRoute: 'DrawerClose'
+}, {
+    icon: 'question',
+    profile: '使用指南',
+    navRoute: 'Help'
+}, {
+    icon: 'settings',
+    profile: '系统设置',
+    navRoute: 'SysSet'
+}];
+
+@inject('user') @observer
 class FooterInfo extends Component {
     resetTo() {
         let {rootNavigation} = this.props.screenProps;
@@ -24,14 +53,18 @@ class FooterInfo extends Component {
 
     render() {
         let {rootNavigation} = this.props.screenProps;
+        let {isStudent} = this.props.user.base;
         return (
             <View style={Styles.footer}>
-                <TouchableOpacity
-                    onPress={() => this.resetTo()}
-                    style={Styles.teacherContainer}>
-                    <Text style={Styles.teacherFont}>{'我是老师'}</Text>
-                    <IconMaterial name={'navigate-next'} size={22}/>
-                </TouchableOpacity>
+                {
+                    isStudent ?
+                        <TouchableOpacity
+                            onPress={() => this.resetTo()}
+                            style={Styles.teacherContainer}>
+                            <Text style={Styles.teacherFont}>{'我是老师'}</Text>
+                            <IconMaterial name={'navigate-next'} size={22}/>
+                        </TouchableOpacity> : null
+                }
                 <View style={Styles.footerWrap}>
                     <TouchableOpacity
                         style={[Styles.footerItem]}
@@ -59,7 +92,8 @@ class DrawerItems extends Component {
     }
 
     checkDrawerItems() {
-        let {drawerItems} = this.props.user.state;
+        let {isStudent} = this.props.user.base;
+        let drawerItems = isStudent ? drawerItems_student : drawerItems_teacher;
         return (
             drawerItems.map((s, i) => {
                 return (
@@ -88,8 +122,12 @@ class DrawerItems extends Component {
 class HeaderInfo extends Component {
     render() {
         let {nickName, userIcon} = this.props.user.base;
+        let {rootNavigation} = this.props.screenProps;
         return (
-            <View style={Styles.header}>
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => rootNavigation.navigate('UserInfo')}
+                style={Styles.header}>
                 <View style={Styles.userIconWrap}>
                     <Image
                         source={{uri: userIcon}}
@@ -98,7 +136,7 @@ class HeaderInfo extends Component {
                         resizeMode={'center'}/>
                 </View>
                 <Text style={Styles.nickName}>{`${nickName}`}</Text>
-            </View>
+            </TouchableOpacity>
         )
     }
 }
@@ -108,7 +146,7 @@ export default class DrawerContent extends Component {
         return (
             <Provider user={UserInfo}>
                 <View style={Styles.container}>
-                    <HeaderInfo />
+                    <HeaderInfo {...this.props}/>
                     <DrawerItems {...this.props}/>
                     <FooterInfo {...this.props}/>
                 </View>

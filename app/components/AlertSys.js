@@ -13,7 +13,7 @@ import shallowCompare from 'react-addons-shallow-compare';
 import Modal from '../components/ModalActivity';
 import Util from '../utility/util';
 import * as ACTIONS from '../utility/events';
-import HBStyle from '../styles/standard';
+import RBStyle from '../styles/standard';
 
 const debugKeyWord = '[AlertSys]';
 
@@ -81,7 +81,7 @@ export default class AlertSys extends Component {
             return (
                 <View style={Styles.oneBtn}>
                     <TouchableHighlight
-                        underlayColor={HBStyle.color.gray_press}
+                        underlayColor={RBStyle.color.gray_press}
                         onPress={() => this.btnPressCallback(0)}
                         style={[Styles.oneBtn, Styles.oneBtnRadius]}>
                         <Text style={Styles.btnFont}>{alertBtnFont[0]}</Text>
@@ -93,14 +93,14 @@ export default class AlertSys extends Component {
             return (
                 <View style={Styles.section}>
                     <TouchableHighlight
-                        underlayColor={HBStyle.color.gray_press}
+                        underlayColor={RBStyle.color.gray_press}
                         onPress={() => this.btnPressCallback(0)}
                         style={[Styles.twoBtn, {borderBottomLeftRadius: 20}]}>
                         <Text style={Styles.btnFont}>{alertBtnFont[0]}</Text>
                     </TouchableHighlight>
                     <View style={Styles.divideLinear}/>
                     <TouchableHighlight
-                        underlayColor={HBStyle.color.gray_press}
+                        underlayColor={RBStyle.color.gray_press}
                         onPress={() => this.btnPressCallback(1)}
                         style={[Styles.twoBtn, {borderBottomRightRadius: 20}]}>
                         <Text style={Styles.btnFont}>{alertBtnFont[1]}</Text>
@@ -136,7 +136,7 @@ const Styles = StyleSheet.create({
     wrap: {
         width: 292,
         borderRadius: 20,
-        backgroundColor: HBStyle.color.white_bg,
+        backgroundColor: RBStyle.color.white_bg,
         paddingHorizontal: 22,
         paddingVertical: 0,
         margin: 0,
@@ -153,21 +153,21 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderTopWidth: Util.size.screen.pixel,
-        borderTopColor: HBStyle.color.gray_line
+        borderTopColor: RBStyle.color.gray_line
     },
     title: {
         fontSize: 18,
-        color: HBStyle.color.wblack,
+        color: RBStyle.color.wblack,
         marginVertical: 22
     },
     detail: {
         fontSize: 16,
-        color: HBStyle.color.wblack,
+        color: RBStyle.color.wblack,
         textAlign: 'center'
     },
     attach: {
         fontSize: 14,
-        color: HBStyle.color.wgray_main,
+        color: RBStyle.color.wgray_main,
         marginTop: 16,
         textAlign: 'center'
     },
@@ -178,7 +178,7 @@ const Styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderTopWidth: Util.size.screen.pixel,
-        borderTopColor: HBStyle.color.gray_line,
+        borderTopColor: RBStyle.color.gray_line,
     },
     oneBtnRadius: {
         borderBottomLeftRadius: 20,
@@ -195,10 +195,10 @@ const Styles = StyleSheet.create({
         height: 50,
         width: Util.size.screen.pixel,
         borderRightWidth: Util.size.screen.pixel,
-        borderRightColor: HBStyle.color.gray_line
+        borderRightColor: RBStyle.color.gray_line
     },
     btnFont: {
         fontSize: 18,
-        color: HBStyle.color.worange
+        color: RBStyle.color.worange
     }
 });
