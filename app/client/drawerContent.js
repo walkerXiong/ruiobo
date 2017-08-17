@@ -120,13 +120,18 @@ class DrawerItems extends Component {
 
 @inject('user') @observer
 class HeaderInfo extends Component {
+    navPage() {
+        let {login} = this.props.user.base;
+        let {rootNavigation} = this.props.screenProps;
+        login ? rootNavigation.navigate('UserInfo') : rootNavigation.navigate('Login');
+    }
+
     render() {
         let {nickName, userIcon} = this.props.user.base;
-        let {rootNavigation} = this.props.screenProps;
         return (
             <TouchableOpacity
                 activeOpacity={1}
-                onPress={() => rootNavigation.navigate('UserInfo')}
+                onPress={() => this.navPage()}
                 style={Styles.header}>
                 <View style={Styles.userIconWrap}>
                     <Image

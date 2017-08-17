@@ -5,6 +5,8 @@ import {observable, action, computed} from 'mobx';
 
 let UserInfo = observable({
     @observable base: {//本地状态
+        login: false,
+        token: '',
         isStudent: true,
         nickName: 'ruiobo',
         realName: '',
