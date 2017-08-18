@@ -22,7 +22,7 @@ import React, {Component} from 'react';
 import {Platform, BackHandler} from 'react-native';
 import realm from './DB/client';
 import {NavigationActions, StackNavigator} from 'react-navigation';
-import {IOS_Default} from './utility/transitionConfig';
+import {FadeToTheLeft} from './utility/transitionConfig';
 import Teacher from './teacher/index';
 import Student from './student/index';
 import UserInfo from './client/userInfo';
@@ -66,7 +66,7 @@ const App = StackNavigator({
     initialRouteName: 'CheckClient',
     headerMode: 'none',
     navigationOptions: {gesturesEnabled: Platform.OS === 'ios'},
-    transitionConfig: IOS_Default
+    transitionConfig: FadeToTheLeft
 });
 
 export default class AppClient extends Component {
