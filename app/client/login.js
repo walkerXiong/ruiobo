@@ -57,7 +57,7 @@ Animatable.initializeRegistryWithDefinitions({
 @inject('user', 'state') @observer
 class Footer extends Component {
     checkRegister() {
-        let {onRegister, loginType, loginPanel} = this.props.state;
+        let {onRegister, loginType, loginPanel, nextButton} = this.props.state;
         if (onRegister) {
             this.props.state.onRegister = !onRegister;
             loginType === 1 ? loginPanel.switchLoginType() : null;
@@ -66,6 +66,7 @@ class Footer extends Component {
             loginType === 0 ? loginPanel.switchLoginType() : null;
             this.props.state.onRegister = !onRegister;
         }
+        nextButton.checkRegister();
     }
 
     render() {
@@ -99,8 +100,10 @@ class NextButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            touchAble: false
-        }
+            touchAble: false,
+            fontTranslateY: new Animated.Value(0)
+        };
+        this.props.state.nextButton = this;
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -119,9 +122,26 @@ class NextButton extends Component {
         });
     }
 
+    checkRegister() {
+        let {onRegister} = this.props.state;
+        if (onRegister) {
+            Animated.timing(this.state.fontTranslateY, {
+                toValue: -50,
+                duration: 300,
+                easing: Easing.ease
+            }).start();
+        }
+        else {
+            Animated.timing(this.state.fontTranslateY, {
+                toValue: 0,
+                duration: 300,
+                easing: Easing.ease
+            }).start();
+        }
+    }
+
     render() {
         Util.log(debugKeyWord + 'NextButton render!!!');
-        let {onRegister} = this.props.state;
         return (
             <TouchableHighlight
                 underlayColor={RBStyle.color.btny_p}
@@ -132,10 +152,10 @@ class NextButton extends Component {
                     justifyContent: 'flex-start',
                     backgroundColor: this.state.touchAble ? RBStyle.color.btny : RBStyle.color.btny_d
                 }]}>
-                <View style={[Styles.nextBtnFontWrap, {transform: [{translateY: onRegister ? -50 : 0}]}]}>
+                <Animated.View style={[Styles.nextBtnFontWrap, {transform: [{translateY: this.state.fontTranslateY}]}]}>
                     <View style={Styles.nextBtnFont}><Text style={Styles.font_3}>{'登    录'}</Text></View>
                     <View style={Styles.nextBtnFont}><Text style={Styles.font_3}>{'注    册'}</Text></View>
-                </View>
+                </Animated.View>
             </TouchableHighlight>
         );
     }
@@ -170,7 +190,7 @@ class LoginPanel extends Component {
         }
         else {
             Animated.timing(this.state.switchRotateZ, {
-                duration: 200,
+                duration: 300,
                 toValue: 180,
                 easing: Easing.ease
             }).start(() => this.state.switchDone = true);
@@ -185,13 +205,14 @@ class LoginPanel extends Component {
     render() {
         let {phoneNumber} = this.props.user.base;
         let {switchRotateZ} = this.state;
+        let {onRegister} = this.props.state;
         return (
             <View style={Styles.loginPanel}>
                 <View style={Styles.account}>
                     <Text style={Styles.font_1}>{'账    号'}</Text>
                     <TextInput
                         underlineColorAndroid={'transparent'}
-                        placeholder={phoneNumber ? phoneNumber : '请输入手机号'}
+                        placeholder={onRegister ? '请输入手机号': phoneNumber ? phoneNumber : '请输入手机号'}
                         placeholderTextColor={'#cbcbcb'}
                         style={[Styles.commonInput, {
                             borderBottomWidth: Util.size.screen.pixel,
@@ -274,7 +295,8 @@ export default class Login extends Component {
         this.state = observable({
             @observable loginType: 0,//0: 表示使用密码 1: 表示使用验证码
             @observable onRegister: false,//表示是否正在进行注册操作
-            @observable loginPanel: null,
+            @observable loginPanel: null,//注册面板实例
+            @observable nextButton: null,//下一步按钮实例
         });
     }
 
