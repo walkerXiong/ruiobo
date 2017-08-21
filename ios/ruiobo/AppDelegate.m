@@ -22,6 +22,8 @@
 {
   NSURL *jsCodeLocation;
 
+  [RNAnalytics registerWithInitiallyEnabled:false];  // Initialize Mobile Center analytics
+
   [RNCrashes registerWithCrashDelegate: [[RNCrashesDelegateAlwaysSend alloc] init]];  // Initialize Mobile Center crashes
 
   [RNAnalytics registerWithInitiallyEnabled:true];  // Initialize Mobile Center analytics

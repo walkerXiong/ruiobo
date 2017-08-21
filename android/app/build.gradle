@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-smart-splash-screen')
     compile project(':realm')
     compile project(':mobile-center-crashes')
     compile project(':mobile-center-analytics')
