@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="mobile-center-react-native-0.7.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/bbf9b2fd0ee742fda859eeadf13779dc7d036c13/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/bbf9b2fd0ee742fda859eeadf13779dc7d036c13/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.azure.mobile.react/mobile-center-react-native/0.7.0/8e41434d2d0829a905d108936f39663815f8e1d4/mobile-center-react-native-0.7.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.azure.mobile.react/mobile-center-react-native/0.7.0/8e41434d2d0829a905d108936f39663815f8e1d4/mobile-center-react-native-0.7.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.azure.mobile.react/mobile-center-react-native/0.7.0/8e41434d2d0829a905d108936f39663815f8e1d4/mobile-center-react-native-0.7.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.microsoft.azure.mobile.react/mobile-center-react-native/0.7.0/8e41434d2d0829a905d108936f39663815f8e1d4/mobile-center-react-native-0.7.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
