@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -71,12 +72,12 @@
 		A71AF939BE7B42F5B73706F0 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76AC83C4591443A1A59C5712 /* MaterialCommunityIcons.ttf */; };
 		B7BD1CFBFE0E49FEB4BEE090 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D40376553E3B4BC692D7CDBF /* FontAwesome.ttf */; };
 		B9E60B324B834769847F214C /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05AC43A73AF947E293AADF9B /* libRNVectorIcons.a */; };
+		C866AB5C1E9B4F4D9E64CF20 /* libRCTSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02D7EC0F248441E295FEB949 /* libRCTSplashScreen.a */; };
 		CAC5BE05D5854271A7B1C124 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C8AFE3BEFC34BFCB5BCB073 /* Entypo.ttf */; };
 		E534B88AA3B74041935EF682 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FCEBDE6064D34DD7850693E9 /* Ionicons.ttf */; };
 		F61184529D1092B26F2ED405 /* libPods-ruiobo-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8FCC02DC28EC93719B20B2B /* libPods-ruiobo-tvOSTests.a */; };
 		F871F15AA437FC7DFD71DA85 /* libPods-ruiobo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EF7DDEA8F7E71D203599321 /* libPods-ruiobo.a */; };
 		FEDD27D5EB3542FCB18D0C47 /* libRNCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10E32BCF6D0943B1B1CF0062 /* libRNCrashes.a */; };
-		C866AB5C1E9B4F4D9E64CF20 /* libRCTSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02D7EC0F248441E295FEB949 /* libRCTSplashScreen.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -276,6 +277,13 @@
 			remoteGlobalIDString = EF3C22561CC2C30D0099E9B6;
 			remoteInfo = RCTBaiduMap;
 		};
+		632D3D4A1F4AEFC100B89072 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 939468407D3044B3A52A341D /* RCTSplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9F90C2241D619E9400F3E238;
+			remoteInfo = RCTSplashScreen;
+		};
 		63B2E74C1F4693BB00F2045F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -344,6 +352,7 @@
 		00E356EE1AD99517003FC87E /* ruioboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ruioboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ruioboTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ruioboTests.m; sourceTree = "<group>"; };
+		02D7EC0F248441E295FEB949 /* libRCTSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTSplashScreen.a; sourceTree = "<group>"; };
 		05760EC738F44E33829802E1 /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		05AC43A73AF947E293AADF9B /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		10E32BCF6D0943B1B1CF0062 /* libRNCrashes.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCrashes.a; sourceTree = "<group>"; };
@@ -400,6 +409,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		84451C55A17047AD8F52B1CE /* RNAnalytics.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAnalytics.xcodeproj; path = "../node_modules/mobile-center-analytics/ios/RNAnalytics.xcodeproj"; sourceTree = "<group>"; };
 		90AAD6E187EAEC0E7B41335B /* Pods-ruioboTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ruioboTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ruioboTests/Pods-ruioboTests.release.xcconfig"; sourceTree = "<group>"; };
+		939468407D3044B3A52A341D /* RCTSplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTSplashScreen.xcodeproj; path = "../node_modules/react-native-smart-splash-screen/ios/RCTSplashScreen/RCTSplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		96E87E4D1352A7FBEBCB1824 /* libPods-ruiobo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ruiobo-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C6FD1F2DAB24949BD35A54A /* libRNMobileCenter.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMobileCenter.a; sourceTree = "<group>"; };
 		9EF7DDEA8F7E71D203599321 /* libPods-ruiobo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ruiobo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -414,8 +424,6 @@
 		E34D3C97D5EB4B3A893722C3 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		FCEBDE6064D34DD7850693E9 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		FE06A316E7E59231E319EF0F /* Pods-ruiobo-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ruiobo-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ruiobo-tvOS/Pods-ruiobo-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		939468407D3044B3A52A341D /* RCTSplashScreen.xcodeproj */ = {isa = PBXFileReference; name = "RCTSplashScreen.xcodeproj"; path = "../node_modules/react-native-smart-splash-screen/ios/RCTSplashScreen/RCTSplashScreen.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		02D7EC0F248441E295FEB949 /* libRCTSplashScreen.a */ = {isa = PBXFileReference; name = "libRCTSplashScreen.a"; path = "libRCTSplashScreen.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -684,6 +692,14 @@
 				C85B7ADC27FC9BB94E8257F9 /* libPods-ruioboTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		632D3D391F4AEFC100B89072 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				632D3D4B1F4AEFC100B89072 /* libRCTSplashScreen.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		63B2E72C1F4693BB00F2045F /* Products */ = {
@@ -966,6 +982,10 @@
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
 				{
+					ProductGroup = 632D3D391F4AEFC100B89072 /* Products */;
+					ProjectRef = 939468407D3044B3A52A341D /* RCTSplashScreen.xcodeproj */;
+				},
+				{
 					ProductGroup = 832341B11AAA6A8300B99B32 /* Products */;
 					ProjectRef = 832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */;
 				},
@@ -1193,6 +1213,13 @@
 			fileType = archive.ar;
 			path = libRCTBaiduMap.a;
 			remoteRef = 6314F7391F034D6400E42698 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		632D3D4B1F4AEFC100B89072 /* libRCTSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTSplashScreen.a;
+			remoteRef = 632D3D4A1F4AEFC100B89072 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		63B2E74D1F4693BB00F2045F /* libthird-party.a */ = {
@@ -1665,7 +1692,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../node_modules/react-native-baidu-map/ios/lib",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
@@ -1697,7 +1727,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../node_modules/react-native-baidu-map/ios/lib",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
